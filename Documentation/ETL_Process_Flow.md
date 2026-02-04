@@ -555,15 +555,9 @@ Master_DW_ETL
 │   └── Execute Package: Load_DimCampaign.dtsx
 │
 ├── Sequence Container: Load Facts (Sequential)
-│   ├── Execute Package: Load_FactSales.dtsx
-│   └── Execute Package: Load_FactReturns.dtsx
-│
-└── Sequence Container: Post-Processing
-    ├── Execute SQL: Update Statistics
-    ├── Execute SQL: Rebuild Fragmented Indexes
-    ├── Execute SQL: Data Quality Checks
-    ├── Execute SQL: Archive Staging Data
-    └── Send Mail: Success Notification
+    ├── Execute Package: Load_FactSales.dtsx
+    └── Execute Package: Load_FactReturns.dtsx
+
 ```
 
 ### Package Configuration
