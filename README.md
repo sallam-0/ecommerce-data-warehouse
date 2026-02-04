@@ -76,9 +76,9 @@ Restore database in [Source_Database](./Source_Database)
 
 Detailed documentation is available in the [Documentation](./Documentation/) folder:
 
-- [Data Warehouse Design](01_Documentation/Data_Warehouse_Design.md)
-- [Dimensional Model](01_Documentation/Dimensional_Model.md)
-- [ETL Process Flow](01_Documentation/ETL_Process_Flow.md)
+- [Data Warehouse Design](Documentation/Star_Schema_Diagram.png)
+- [Dimensional Model](Documentation/Dimensional_Model.md)
+- [ETL Process Flow](Documentation/ETL_Process_Flow.md)
 
 
 ##  Sample Analytics Queries
