@@ -344,7 +344,7 @@ All dimension loads follow this pattern:
 │ 2. Extract to Staging                                       │
 │    Source: supplier (OLTP)                                  │
 │    Query: SELECT * FROM supplier                            │
-│    Destination: STG_DimSupplier                            │
+│    Destination: STG_DimSupplier                             │
 └─────────────────────────────────────────────────────────────┘
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
@@ -437,25 +437,25 @@ All dimension loads follow this pattern:
 ┌─────────────────────────────────────────────────────────────┐
 │ 2. Extract to Staging                                       │
 │    Source Query (Multi-table JOIN):                         │
-│      SELECT oi.orderitem_id, oi.order_id,                  │
-│             o.customer_id, oi.product_id,                  │
-│             o.campaign_id, o.payment_method_id,            │
-│             o.order_date, o.ship_date,                     │
-│             oi.quantity, oi.unit_price, oi.unit_cost,      │
-│             oi.discount_amount, o.tax_amount,              │
+│      SELECT oi.orderitem_id, oi.order_id,                   │
+│             o.customer_id, oi.product_id,                   │
+│             o.campaign_id, o.payment_method_id,             │
+│             o.order_date, o.ship_date,                      │
+│             oi.quantity, oi.unit_price, oi.unit_cost,       │
+│             oi.discount_amount, o.tax_amount,               │
 │             o.shipping_cost                                 │
 │      FROM orderitem oi                                      │
-│      INNER JOIN orders o ON oi.order_id = o.order_id       │
-│      WHERE o.order_date >= @LastLoadDate                   │
-│    Destination: STG_FactSales                              │
+│      INNER JOIN orders o ON oi.order_id = o.order_id        │
+│      WHERE o.order_date >= @LastLoadDate                    │
+│    Destination: STG_FactSales                               │
 └─────────────────────────────────────────────────────────────┘
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
 │ 3. Calculate Derived Measures in Staging                    │
 │    - Sales_Amount = Quantity * Unit_Price                   │
 │    - Cost_Amount = Quantity * Unit_Cost                     │
-│    - Gross_Profit = Sales_Amount - Cost_Amount             │
-│    - Net_Sales = Sales_Amount - Discount_Amount            │
+│    - Gross_Profit = Sales_Amount - Cost_Amount              │
+│    - Net_Sales = Sales_Amount - Discount_Amount             │
 └─────────────────────────────────────────────────────────────┘
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
@@ -463,17 +463,17 @@ All dimension loads follow this pattern:
 │    Lookup Transformations:                                  │
 │      Customer_Key ← DimCustomer (Customer_ID, Is_Current=1) │
 │      Product_Key ← DimProduct (Product_ID, Is_Current=1)    │
-│      Campaign_Key ← DimCampaign (Campaign_ID)              │
-│      PaymentMethod_Key ← DimPaymentMethod (Payment_ID)     │
-│      Order_Date_Key ← DimDate (Order_Date)                 │
-│      Ship_Date_Key ← DimDate (Ship_Date)                   │
+│      Campaign_Key ← DimCampaign (Campaign_ID)               │
+│      PaymentMethod_Key ← DimPaymentMethod (Payment_ID)      │
+│      Order_Date_Key ← DimDate (Order_Date)                  │
+│      Ship_Date_Key ← DimDate (Ship_Date)                    │
 └─────────────────────────────────────────────────────────────┘
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
 │ 5. Error Handling                                           │
 │    Conditional Split:                                       │
-│      - Valid Lookups → Continue to FactSales               │
-│      - Failed Lookups → Error Output (Log & Alert)         │
+│      - Valid Lookups → Continue to FactSales                │
+│      - Failed Lookups → Error Output (Log & Alert)          │
 └─────────────────────────────────────────────────────────────┘
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
@@ -502,28 +502,28 @@ All dimension loads follow this pattern:
 ┌─────────────────────────────────────────────────────────────┐
 │ 2. Extract to Staging                                       │
 │    Source Query:                                            │
-│      SELECT r.return_id, r.order_id, r.orderitem_id,       │
-│             r.product_id, r.customer_id, r.return_date,    │
-│             r.return_quantity, r.return_amount,            │
-│             r.return_reason, r.refund_amount,              │
-│             r.restocking_fee                               │
+│      SELECT r.return_id, r.order_id, r.orderitem_id,        │
+│             r.product_id, r.customer_id, r.return_date,     │
+│             r.return_quantity, r.return_amount,             │
+│             r.return_reason, r.refund_amount,               │
+│             r.restocking_fee                                │
 │      FROM returns r                                         │
-│      WHERE r.return_date >= @LastLoadDate                  │
-│    Destination: STG_FactReturns                            │
+│      WHERE r.return_date >= @LastLoadDate                   │
+│    Destination: STG_FactReturns                             │
 └─────────────────────────────────────────────────────────────┘
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
 │ 3. Dimension Key Lookups from Staging                       │
 │    Lookups:                                                 │
-│      Customer_Key ← DimCustomer                            │
-│      Product_Key ← DimProduct                              │
-│      Return_Date_Key ← DimDate                             │
-│      Order_Key ← FactSales (Order_ID + OrderItem_ID)      │
+│      Customer_Key ← DimCustomer                             │
+│      Product_Key ← DimProduct                               │
+│      Return_Date_Key ← DimDate                              │
+│      Order_Key ← FactSales (Order_ID + OrderItem_ID)        │
 └─────────────────────────────────────────────────────────────┘
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
 │ 4. Calculate Return Metrics in Staging                      │
-│    - Net_Refund_Amount = Refund_Amount - Restocking_Fee    │
+│    - Net_Refund_Amount = Refund_Amount - Restocking_Fee     │
 └─────────────────────────────────────────────────────────────┘
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
@@ -582,25 +582,7 @@ SourceOLTP    → SQL Server connection to transactional DB
 TargetDW      → SQL Server connection to data warehouse
 ```
 
-### Execution Control
 
-
-
-**Load Date Management**:
-
-```sql
--- At start of ETL
-DECLARE @LastLoadDate DATETIME;
-SELECT @LastLoadDate = CONVERT(DATETIME, ControlValue)
-FROM ETL_ControlTable
-WHERE ControlKey = 'LastSuccessfulLoad';
-
--- At end of successful ETL
-UPDATE ETL_ControlTable
-SET ControlValue = CONVERT(VARCHAR(20), GETDATE(), 120),
-    LastUpdated = GETDATE()
-WHERE ControlKey = 'LastSuccessfulLoad';
-```
 
 
 ---
