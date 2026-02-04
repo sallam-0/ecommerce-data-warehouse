@@ -1,0 +1,1544 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/25/2026 2:05:16 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LAPTOP-G61C3V06"
+  DTS:CreatorName="LAPTOP-G61C3V06\SALLAM"
+  DTS:DTSID="{A1819D43-5F23-4D41-B6ED-32069191D99E}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{399E341E-A658-413A-BF61-257060B0F4EF}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DimPaymentMethod"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{ACFBDF79-45EA-4478-A545-138E7DB475C7}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DimPaymentMethod"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DimPaymentMethod\Check Change"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Check Change"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DimPaymentMethod\Check Change.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DimPaymentMethod\Check Change.Inputs[Conditional Split Input].Columns[Payment_Method_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Payment_Method_Name"
+                      lineageId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].Columns[Payment_Method_Name]" />
+                    <inputColumn
+                      refId="Package\DimPaymentMethod\Check Change.Inputs[Conditional Split Input].Columns[Payment_Method_Name1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Payment_Method_Name"
+                      lineageId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Match Output].Columns[Payment_Method_Name]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DimPaymentMethod\Check Change.Outputs[Change]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Change"
+                  synchronousInputId="Package\DimPaymentMethod\Check Change.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].Columns[Payment_Method_Name]} != #{Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Match Output].Columns[Payment_Method_Name]}</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">STG_PaymentMethod.Payment_Method_Name != [Check Lookup].Payment_Method_Name</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DimPaymentMethod\Check Change.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\DimPaymentMethod\Check Change.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DimPaymentMethod\Check Change.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\DimPaymentMethod\Check Change.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\Check Change.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DimPaymentMethod\Check Change.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\Check Change.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DimPaymentMethod\Check Change.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DimPaymentMethod\Check Lookup"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Check Lookup"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[DimPaymentMethod]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[DimPaymentMethod]) [refTable]
+where [refTable].[PaymentMethod_ID] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="PaymentMethod_Key" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PaymentMethod_ID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Payment_Method_Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Source_System" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].Columns[PaymentMethod_ID]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DimPaymentMethod\Check Lookup.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DimPaymentMethod\Check Lookup.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DimPaymentMethod\Check Lookup.Inputs[Lookup Input].Columns[PaymentMethod_ID]"
+                      cachedDataType="i4"
+                      cachedName="PaymentMethod_ID"
+                      lineageId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].Columns[PaymentMethod_ID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">PaymentMethod_ID</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DimPaymentMethod\Check Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Match Output].Columns[PaymentMethod_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Match Output].Columns[PaymentMethod_ID]"
+                      name="PaymentMethod_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">PaymentMethod_ID</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Match Output].Columns[Payment_Method_Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="255"
+                      lineageId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Match Output].Columns[Payment_Method_Name]"
+                      name="Payment_Method_Name"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Payment_Method_Name</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DimPaymentMethod\Check Lookup.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DimPaymentMethod\Check Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DimPaymentMethod\DimPaymentMethod"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="DimPaymentMethod"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[DimPaymentMethod]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DimPaymentMethod\DimPaymentMethod.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DimPaymentMethod\DimPaymentMethod.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DimPaymentMethod\DimPaymentMethod.Inputs[OLE DB Destination Input].Columns[PaymentMethod_ID]"
+                      cachedDataType="i4"
+                      cachedName="PaymentMethod_ID"
+                      externalMetadataColumnId="Package\DimPaymentMethod\DimPaymentMethod.Inputs[OLE DB Destination Input].ExternalColumns[PaymentMethod_ID]"
+                      lineageId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].Columns[PaymentMethod_ID]" />
+                    <inputColumn
+                      refId="Package\DimPaymentMethod\DimPaymentMethod.Inputs[OLE DB Destination Input].Columns[Payment_Method_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Payment_Method_Name"
+                      externalMetadataColumnId="Package\DimPaymentMethod\DimPaymentMethod.Inputs[OLE DB Destination Input].ExternalColumns[Payment_Method_Name]"
+                      lineageId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].Columns[Payment_Method_Name]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DimPaymentMethod\DimPaymentMethod.Inputs[OLE DB Destination Input].ExternalColumns[PaymentMethod_Key]"
+                      dataType="i4"
+                      name="PaymentMethod_Key" />
+                    <externalMetadataColumn
+                      refId="Package\DimPaymentMethod\DimPaymentMethod.Inputs[OLE DB Destination Input].ExternalColumns[PaymentMethod_ID]"
+                      dataType="i4"
+                      name="PaymentMethod_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DimPaymentMethod\DimPaymentMethod.Inputs[OLE DB Destination Input].ExternalColumns[Payment_Method_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Payment_Method_Name" />
+                    <externalMetadataColumn
+                      refId="Package\DimPaymentMethod\DimPaymentMethod.Inputs[OLE DB Destination Input].ExternalColumns[Source_System]"
+                      dataType="wstr"
+                      length="50"
+                      name="Source_System" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DimPaymentMethod\DimPaymentMethod.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DimPaymentMethod\DimPaymentMethod.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\DimPaymentMethod.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DimPaymentMethod\DimPaymentMethod.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\DimPaymentMethod.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DimPaymentMethod\DimPaymentMethod.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DimPaymentMethod\STG_PaymentMethod"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="STG_PaymentMethod"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[STG_PaymentMethod]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DimPaymentMethod\STG_PaymentMethod.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].Columns[PaymentMethod_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].ExternalColumns[PaymentMethod_ID]"
+                      lineageId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].Columns[PaymentMethod_ID]"
+                      name="PaymentMethod_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].Columns[Payment_Method_Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].ExternalColumns[Payment_Method_Name]"
+                      length="255"
+                      lineageId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].Columns[Payment_Method_Name]"
+                      name="Payment_Method_Name"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].ExternalColumns[PaymentMethod_ID]"
+                      dataType="i4"
+                      name="PaymentMethod_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].ExternalColumns[Payment_Method_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Payment_Method_Name" />
+                    <externalMetadataColumn
+                      refId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].ExternalColumns[Load_Date]"
+                      dataType="dbTimeStamp"
+                      name="Load_Date" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Error Output].Columns[PaymentMethod_ID]"
+                      dataType="i4"
+                      lineageId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Error Output].Columns[PaymentMethod_ID]"
+                      name="PaymentMethod_ID" />
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Error Output].Columns[Payment_Method_Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Error Output].Columns[Payment_Method_Name]"
+                      name="Payment_Method_Name" />
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DimPaymentMethod\Update Record"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="Update Record"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">UPDATE DimPaymentMethod
+
+SET Payment_Method_Name = ?
+
+WHERE PaymentMethod_ID = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DimPaymentMethod\Update Record.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DimPaymentMethod\Update Record.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DimPaymentMethod\Update Record.Inputs[OLE DB Command Input].Columns[Payment_Method_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Payment_Method_Name"
+                      externalMetadataColumnId="Package\DimPaymentMethod\Update Record.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].Columns[Payment_Method_Name]" />
+                    <inputColumn
+                      refId="Package\DimPaymentMethod\Update Record.Inputs[OLE DB Command Input].Columns[PaymentMethod_ID]"
+                      cachedDataType="i4"
+                      cachedName="PaymentMethod_ID"
+                      externalMetadataColumnId="Package\DimPaymentMethod\Update Record.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      lineageId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output].Columns[PaymentMethod_ID]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DimPaymentMethod\Update Record.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      dataType="wstr"
+                      length="255"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DimPaymentMethod\Update Record.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      dataType="i4"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DimPaymentMethod\Update Record.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\DimPaymentMethod\Update Record.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DimPaymentMethod\Update Record.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\DimPaymentMethod\Update Record.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\Update Record.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DimPaymentMethod\Update Record.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DimPaymentMethod\Update Record.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DimPaymentMethod\Update Record.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DimPaymentMethod.Paths[Change]"
+              endId="Package\DimPaymentMethod\Update Record.Inputs[OLE DB Command Input]"
+              name="Change"
+              startId="Package\DimPaymentMethod\Check Change.Outputs[Change]" />
+            <path
+              refId="Package\DimPaymentMethod.Paths[Lookup Match Output]"
+              endId="Package\DimPaymentMethod\Check Change.Inputs[Conditional Split Input]"
+              name="Lookup Match Output"
+              startId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DimPaymentMethod.Paths[Lookup No Match Output]"
+              endId="Package\DimPaymentMethod\DimPaymentMethod.Inputs[OLE DB Destination Input]"
+              name="Lookup No Match Output"
+              startId="Package\DimPaymentMethod\Check Lookup.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\DimPaymentMethod.Paths[OLE DB Source Output]"
+              endId="Package\DimPaymentMethod\Check Lookup.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DimPaymentMethod\STG_PaymentMethod.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\STG_PaymentMethod"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{E62EC1A9-8CD2-4603-9C7F-8EB8E2604AC9}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="STG_PaymentMethod"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\STG_PaymentMethod\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\STG_PaymentMethod\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\STG_PaymentMethod\Data Conversion.Inputs[Data Conversion Input].Columns[payment_method_id]"
+                      cachedDataType="i4"
+                      cachedName="payment_method_id"
+                      lineageId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output].Columns[payment_method_id]" />
+                    <inputColumn
+                      refId="Package\STG_PaymentMethod\Data Conversion.Inputs[Data Conversion Input].Columns[payment_method]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="payment_method"
+                      lineageId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output].Columns[payment_method]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\STG_PaymentMethod\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of payment_method_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of payment_method_id]"
+                      name="Copy of payment_method_id"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output].Columns[payment_method_id]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of payment_method]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of payment_method]"
+                      name="Copy of payment_method"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output].Columns[payment_method]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\STG_PaymentMethod\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\STG_PaymentMethod\PaymentMethod Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="PaymentMethod Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[payment_method]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\STG_PaymentMethod\PaymentMethod Source.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output].Columns[payment_method_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output].ExternalColumns[payment_method_id]"
+                      lineageId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output].Columns[payment_method_id]"
+                      name="payment_method_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output].Columns[payment_method]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output].ExternalColumns[payment_method]"
+                      length="50"
+                      lineageId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output].Columns[payment_method]"
+                      name="payment_method"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output].ExternalColumns[payment_method_id]"
+                      dataType="i4"
+                      name="payment_method_id" />
+                    <externalMetadataColumn
+                      refId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output].ExternalColumns[payment_method]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="payment_method" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Error Output].Columns[payment_method_id]"
+                      dataType="i4"
+                      lineageId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Error Output].Columns[payment_method_id]"
+                      name="payment_method_id" />
+                    <outputColumn
+                      refId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Error Output].Columns[payment_method]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Error Output].Columns[payment_method]"
+                      name="payment_method" />
+                    <outputColumn
+                      refId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\STG_PaymentMethod\STG_PaymetMethod"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="STG_PaymetMethod"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[STG_PaymentMethod]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\STG_PaymentMethod\STG_PaymetMethod.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\STG_PaymentMethod\STG_PaymetMethod.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\STG_PaymentMethod\STG_PaymetMethod.Inputs[OLE DB Destination Input].Columns[Copy of payment_method_id]"
+                      cachedDataType="i4"
+                      cachedName="Copy of payment_method_id"
+                      externalMetadataColumnId="Package\STG_PaymentMethod\STG_PaymetMethod.Inputs[OLE DB Destination Input].ExternalColumns[PaymentMethod_ID]"
+                      lineageId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of payment_method_id]" />
+                    <inputColumn
+                      refId="Package\STG_PaymentMethod\STG_PaymetMethod.Inputs[OLE DB Destination Input].Columns[Copy of payment_method]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Copy of payment_method"
+                      externalMetadataColumnId="Package\STG_PaymentMethod\STG_PaymetMethod.Inputs[OLE DB Destination Input].ExternalColumns[Payment_Method_Name]"
+                      lineageId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of payment_method]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\STG_PaymentMethod\STG_PaymetMethod.Inputs[OLE DB Destination Input].ExternalColumns[PaymentMethod_ID]"
+                      dataType="i4"
+                      name="PaymentMethod_ID" />
+                    <externalMetadataColumn
+                      refId="Package\STG_PaymentMethod\STG_PaymetMethod.Inputs[OLE DB Destination Input].ExternalColumns[Payment_Method_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Payment_Method_Name" />
+                    <externalMetadataColumn
+                      refId="Package\STG_PaymentMethod\STG_PaymetMethod.Inputs[OLE DB Destination Input].ExternalColumns[Load_Date]"
+                      dataType="dbTimeStamp"
+                      name="Load_Date" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\STG_PaymentMethod\STG_PaymetMethod.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\STG_PaymentMethod\STG_PaymetMethod.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_PaymentMethod\STG_PaymetMethod.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\STG_PaymentMethod\STG_PaymetMethod.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\STG_PaymentMethod\STG_PaymetMethod.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\STG_PaymentMethod\STG_PaymetMethod.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\STG_PaymentMethod.Paths[Data Conversion Output]"
+              endId="Package\STG_PaymentMethod\STG_PaymetMethod.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\STG_PaymentMethod\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\STG_PaymentMethod.Paths[OLE DB Source Output]"
+              endId="Package\STG_PaymentMethod\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\STG_PaymentMethod\PaymentMethod Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\TRUNCATE STG_PaymentMethod"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{AEC5A82B-D7D0-4B84-BF48-F39592D4B9D0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TRUNCATE STG_PaymentMethod"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{28B14C08-E10A-485A-939E-C18888722F0B}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE STG_PaymentMethod" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{49343049-0B75-4AFF-BEC1-4090D280138B}"
+      DTS:From="Package\TRUNCATE STG_PaymentMethod"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\STG_PaymentMethod" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{EEC0905A-E791-4783-9A83-6A59367F6E53}"
+      DTS:From="Package\STG_PaymentMethod"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\DimPaymentMethod" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="185.333333333334,42.6666666666667"
+          Id="Package\STG_PaymentMethod"
+          TopLeft="304.999986365438,136.157893241855" />
+        <NodeLayout
+          Size="246.666666666667,42.6666666666667"
+          Id="Package\TRUNCATE STG_PaymentMethod"
+          TopLeft="276.874987622723,47.8947363162305" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="398.937486994081,90.5614029828972">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45.5964902589582"
+              Start="0,0"
+              End="0,38.0964902589582">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.0964902589582" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="176,42.6666666666667"
+          Id="Package\DimPaymentMethod"
+          TopLeft="312.499986030162,246.315786769186" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="399.083319531133,178.824559908522">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,67.4912268606636"
+              Start="0,0"
+              End="0,59.9912268606636">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,59.9912268606636" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\STG_PaymentMethod">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="193.333333333334,42.6666666666667"
+          Id="Package\STG_PaymentMethod\PaymentMethod Source"
+          TopLeft="357.499984018505,58.1578940982799" />
+        <NodeLayout
+          Size="158.666666666667,42.6666666666667"
+          Id="Package\STG_PaymentMethod\Data Conversion"
+          TopLeft="358.124983990565,149.157893099118" />
+        <EdgeLayout
+          Id="Package\STG_PaymentMethod.Paths[OLE DB Source Output]"
+          TopLeft="454.166650685172,100.824560764947">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-16.7083333612731,48.3333323341713"
+              Start="0,0"
+              End="-16.7083333612731,40.8333323341713">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1666661670857" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.1666661670857"
+                    Point2="0,24.1666661670857"
+                    Point3="-4,24.1666661670857" />
+                  <mssgle:LineSegment
+                    End="-12.7083333612731,24.1666661670857" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-12.7083333612731,24.1666661670857"
+                    Point2="-16.7083333612731,24.1666661670857"
+                    Point3="-16.7083333612731,28.1666661670857" />
+                  <mssgle:LineSegment
+                    End="-16.7083333612731,40.8333323341713" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="178.666666666667,42.6666666666667"
+          Id="Package\STG_PaymentMethod\STG_PaymetMethod"
+          TopLeft="365.624983655289,253.842102476022" />
+        <EdgeLayout
+          Id="Package\STG_PaymentMethod.Paths[Data Conversion Output]"
+          TopLeft="437.458317323899,191.824559765785">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="17.4999996647238,62.0175427102372"
+              Start="0,0"
+              End="17.4999996647238,54.5175427102372">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.0087713551186" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,27.0087713551186"
+                    Point2="0,31.0087713551186"
+                    Point3="4,31.0087713551186" />
+                  <mssgle:LineSegment
+                    End="13.4999996647238,31.0087713551186" />
+                  <mssgle:CubicBezierSegment
+                    Point1="13.4999996647238,31.0087713551186"
+                    Point2="17.4999996647238,31.0087713551186"
+                    Point3="17.4999996647238,35.0087713551186" />
+                  <mssgle:LineSegment
+                    End="17.4999996647238,54.5175427102372" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\STG_PaymentMethod\PaymentMethod Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\STG_PaymentMethod\STG_PaymetMethod">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\DimPaymentMethod">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="185.333333333334,42.6666666666667"
+          Id="Package\DimPaymentMethod\STG_PaymentMethod"
+          TopLeft="495.923062143418,34.8461528076576" />
+        <NodeLayout
+          Size="148,42.6666666666667"
+          Id="Package\DimPaymentMethod\Check Lookup"
+          TopLeft="499.230754352533,124.615380901557" />
+        <EdgeLayout
+          Id="Package\DimPaymentMethod.Paths[OLE DB Source Output]"
+          TopLeft="588.589728810085,77.5128194743243">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-15.3589744575512,47.1025614272327"
+              Start="0,0"
+              End="-15.3589744575512,39.6025614272327">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5512807136164" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.5512807136164"
+                    Point2="0,23.5512807136164"
+                    Point3="-4,23.5512807136164" />
+                  <mssgle:LineSegment
+                    End="-11.3589744575512,23.5512807136164" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-11.3589744575512,23.5512807136164"
+                    Point2="-15.3589744575512,23.5512807136164"
+                    Point3="-15.3589744575512,27.5512807136164" />
+                  <mssgle:LineSegment
+                    End="-15.3589744575512,39.6025614272327" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="150.666666666667,42.6666666666667"
+          Id="Package\DimPaymentMethod\Check Change"
+          TopLeft="356.923066285941,204.615378517371" />
+        <EdgeLayout
+          Id="Package\DimPaymentMethod.Paths[Lookup Match Output]"
+          TopLeft="573.230754352533,167.282047568224">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-140.974354733259,37.3333309491475"
+              Start="0,0"
+              End="-140.974354733259,29.8333309491475">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.6666654745738" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.6666654745738"
+                    Point2="0,18.6666654745738"
+                    Point3="-4,18.6666654745738" />
+                  <mssgle:LineSegment
+                    End="-136.974354733259,18.6666654745738" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-136.974354733259,18.6666654745738"
+                    Point2="-140.974354733259,18.6666654745738"
+                    Point3="-140.974354733259,22.6666654745738" />
+                  <mssgle:LineSegment
+                    End="-140.974354733259,29.8333309491475" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-118.67856408538,23.6666654745738,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="150.666666666667,42.6666666666667"
+          Id="Package\DimPaymentMethod\Update Record"
+          TopLeft="321.538451955869,282.307683894268" />
+        <EdgeLayout
+          Id="Package\DimPaymentMethod.Paths[Change]"
+          TopLeft="432.256399619274,247.282045184038">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-35.3846143300716,35.0256387102299"
+              Start="0,0"
+              End="-35.3846143300716,27.5256387102299">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.512819355115" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.512819355115"
+                    Point2="0,17.512819355115"
+                    Point3="-4,17.512819355115" />
+                  <mssgle:LineSegment
+                    End="-31.3846143300716,17.512819355115" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-31.3846143300716,17.512819355115"
+                    Point2="-35.3846143300716,17.512819355115"
+                    Point3="-35.3846143300716,21.512819355115" />
+                  <mssgle:LineSegment
+                    End="-35.3846143300716,27.5256387102299" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-35.0061743525358,22.512819355115,34.627734375,11.6630859375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="176,42.6666666666667"
+          Id="Package\DimPaymentMethod\DimPaymentMethod"
+          TopLeft="542.307676145664,316.923067478034" />
+        <EdgeLayout
+          Id="Package\DimPaymentMethod.Paths[Lookup No Match Output]"
+          TopLeft="596.564087685867,167.282047568224">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="33.7435884597971,149.64101990981"
+              Start="0,0"
+              End="33.7435884597971,142.14101990981">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,56.8166711932917" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,56.8166711932917"
+                    Point2="0,60.8166711932917"
+                    Point3="4,60.8166711932917" />
+                  <mssgle:LineSegment
+                    End="29.7435884597971,60.8166711932917" />
+                  <mssgle:CubicBezierSegment
+                    Point1="29.7435884597971,60.8166711932917"
+                    Point2="33.7435884597971,60.8166711932917"
+                    Point3="33.7435884597971,64.8166711932917" />
+                  <mssgle:LineSegment
+                    End="33.7435884597971,142.14101990981" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-38.9345924888514,65.8166711932917,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DimPaymentMethod\STG_PaymentMethod">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DimPaymentMethod\Check Lookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[DimPaymentMethod]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DimPaymentMethod\DimPaymentMethod">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

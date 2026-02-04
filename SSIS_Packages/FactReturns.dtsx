@@ -1,0 +1,2288 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/26/2026 2:29:57 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LAPTOP-G61C3V06"
+  DTS:CreatorName="LAPTOP-G61C3V06\SALLAM"
+  DTS:DTSID="{69E9766B-B500-4BC6-9675-3C0A9C2F0DCC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="FactReturns"
+  DTS:PackageType="5"
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{882F3927-0339-4E6F-9105-5DF60A1450DA}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D291A6BB-E04E-4C1F-9BC9-5A6499D50A0E}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LoadDate">
+      <DTS:VariableValue
+        DTS:DataType="7">1/1/1900</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\FactReturns"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{8B3DD342-2DBF-4DC8-A1BA-D9EB68C7ED94}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="FactReturns"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\FactReturns\DimCustomer lkp"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="DimCustomer lkp"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT Customer_Key, Customer_ID
+FROM DimCustomer
+WHERE Is_Current = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (SELECT Customer_Key, Customer_ID
+FROM DimCustomer
+WHERE Is_Current = 1) [refTable]
+where [refTable].[Customer_ID] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Customer_Key" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Customer_ID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Customer_ID]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FactReturns\DimCustomer lkp.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\FactReturns\DimCustomer lkp.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactReturns\DimCustomer lkp.Inputs[Lookup Input].Columns[Customer_ID]"
+                      cachedDataType="i4"
+                      cachedName="Customer_ID"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Customer_ID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Customer_ID</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FactReturns\DimCustomer lkp.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\FactReturns\DimCustomer lkp.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactReturns\DimCustomer lkp.Outputs[Lookup Match Output].Columns[Customer_Key]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\FactReturns\DimCustomer lkp.Outputs[Lookup Match Output].Columns[Customer_Key]"
+                      name="Customer_Key"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Customer_Key</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactReturns\DimCustomer lkp.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\FactReturns\DimCustomer lkp.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactReturns\DimCustomer lkp.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\FactReturns\DimCustomer lkp.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactReturns\DimCustomer lkp.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\DimCustomer lkp.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FactReturns\DimCustomer lkp.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\DimCustomer lkp.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactReturns\DimDate lkp"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="DimDate lkp"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT Date_Key, Full_Date
+FROM DimDate</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (SELECT Date_Key, Full_Date
+FROM DimDate) [refTable]
+where [refTable].[Full_Date] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Date_Key" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Full_Date" dataType="DT_DBDATE" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Return_Date]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FactReturns\DimDate lkp.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\FactReturns\DimDate lkp.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactReturns\DimDate lkp.Inputs[Lookup Input].Columns[Return_Date]"
+                      cachedDataType="dbDate"
+                      cachedName="Return_Date"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Return_Date]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Full_Date</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FactReturns\DimDate lkp.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\FactReturns\DimDate lkp.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactReturns\DimDate lkp.Outputs[Lookup Match Output].Columns[ReturnDate_Key]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\FactReturns\DimDate lkp.Outputs[Lookup Match Output].Columns[ReturnDate_Key]"
+                      name="ReturnDate_Key"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Date_Key</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactReturns\DimDate lkp.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\FactReturns\DimDate lkp.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactReturns\DimDate lkp.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\FactReturns\DimDate lkp.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactReturns\DimDate lkp.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\DimDate lkp.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FactReturns\DimDate lkp.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\DimDate lkp.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactReturns\DimPaymentMethod lkp"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="DimPaymentMethod lkp"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT PaymentMethod_Key, PaymentMethod_ID
+FROM DimPaymentMethod</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (SELECT PaymentMethod_Key, PaymentMethod_ID
+FROM DimPaymentMethod) [refTable]
+where [refTable].[PaymentMethod_ID] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="PaymentMethod_Key" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PaymentMethod_ID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[PaymentMethod_ID]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FactReturns\DimPaymentMethod lkp.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\FactReturns\DimPaymentMethod lkp.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactReturns\DimPaymentMethod lkp.Inputs[Lookup Input].Columns[PaymentMethod_ID]"
+                      cachedDataType="i4"
+                      cachedName="PaymentMethod_ID"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[PaymentMethod_ID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">PaymentMethod_ID</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FactReturns\DimPaymentMethod lkp.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\FactReturns\DimPaymentMethod lkp.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactReturns\DimPaymentMethod lkp.Outputs[Lookup Match Output].Columns[PaymentMethod_Key]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\FactReturns\DimPaymentMethod lkp.Outputs[Lookup Match Output].Columns[PaymentMethod_Key]"
+                      name="PaymentMethod_Key"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">PaymentMethod_Key</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactReturns\DimPaymentMethod lkp.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\FactReturns\DimPaymentMethod lkp.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactReturns\DimPaymentMethod lkp.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\FactReturns\DimPaymentMethod lkp.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactReturns\DimPaymentMethod lkp.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\DimPaymentMethod lkp.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FactReturns\DimPaymentMethod lkp.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\DimPaymentMethod lkp.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactReturns\DimProduct lkp"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="DimProduct lkp"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT Product_Key, Product_ID
+FROM DimProduct
+WHERE Is_Current = 1</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (SELECT Product_Key, Product_ID
+FROM DimProduct
+WHERE Is_Current = 1) [refTable]
+where [refTable].[Product_ID] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Product_Key" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Product_ID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Product_ID]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FactReturns\DimProduct lkp.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\FactReturns\DimProduct lkp.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactReturns\DimProduct lkp.Inputs[Lookup Input].Columns[Product_ID]"
+                      cachedDataType="i4"
+                      cachedName="Product_ID"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Product_ID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Product_ID</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FactReturns\DimProduct lkp.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\FactReturns\DimProduct lkp.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactReturns\DimProduct lkp.Outputs[Lookup Match Output].Columns[Product_Key]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\FactReturns\DimProduct lkp.Outputs[Lookup Match Output].Columns[Product_Key]"
+                      name="Product_Key"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Product_Key</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactReturns\DimProduct lkp.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\FactReturns\DimProduct lkp.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactReturns\DimProduct lkp.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\FactReturns\DimProduct lkp.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactReturns\DimProduct lkp.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\DimProduct lkp.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FactReturns\DimProduct lkp.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\DimProduct lkp.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactReturns\FactReturns"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="FactReturns"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[FactReturns]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FactReturns\FactReturns.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].Columns[Order_ID]"
+                      cachedDataType="i4"
+                      cachedName="Order_ID"
+                      externalMetadataColumnId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Order_ID]"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Order_ID]" />
+                    <inputColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].Columns[Return_ID]"
+                      cachedDataType="i4"
+                      cachedName="Return_ID"
+                      externalMetadataColumnId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Return_ID]"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Return_ID]" />
+                    <inputColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].Columns[Reason]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="Reason"
+                      externalMetadataColumnId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Reason]"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Reason]" />
+                    <inputColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].Columns[Amount_Refunded]"
+                      cachedDataType="numeric"
+                      cachedName="Amount_Refunded"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Amount_Refunded]"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Amount_Refunded]" />
+                    <inputColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].Columns[ReturnDate_Key]"
+                      cachedDataType="i4"
+                      cachedName="ReturnDate_Key"
+                      externalMetadataColumnId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[ReturnDate_Key]"
+                      lineageId="Package\FactReturns\DimDate lkp.Outputs[Lookup Match Output].Columns[ReturnDate_Key]" />
+                    <inputColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].Columns[Customer_Key]"
+                      cachedDataType="i4"
+                      cachedName="Customer_Key"
+                      externalMetadataColumnId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Customer_Key]"
+                      lineageId="Package\FactReturns\DimCustomer lkp.Outputs[Lookup Match Output].Columns[Customer_Key]" />
+                    <inputColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].Columns[Product_Key]"
+                      cachedDataType="i4"
+                      cachedName="Product_Key"
+                      externalMetadataColumnId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Product_Key]"
+                      lineageId="Package\FactReturns\DimProduct lkp.Outputs[Lookup Match Output].Columns[Product_Key]" />
+                    <inputColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].Columns[PaymentMethod_Key]"
+                      cachedDataType="i4"
+                      cachedName="PaymentMethod_Key"
+                      externalMetadataColumnId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[PaymentMethod_Key]"
+                      lineageId="Package\FactReturns\DimPaymentMethod lkp.Outputs[Lookup Match Output].Columns[PaymentMethod_Key]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[FactReturns_Key]"
+                      dataType="i8"
+                      name="FactReturns_Key" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[ReturnDate_Key]"
+                      dataType="i4"
+                      name="ReturnDate_Key" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Customer_Key]"
+                      dataType="i4"
+                      name="Customer_Key" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Product_Key]"
+                      dataType="i4"
+                      name="Product_Key" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[PaymentMethod_Key]"
+                      dataType="i4"
+                      name="PaymentMethod_Key" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Return_ID]"
+                      dataType="i4"
+                      name="Return_ID" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Order_ID]"
+                      dataType="i4"
+                      name="Order_ID" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Amount_Refunded]"
+                      dataType="numeric"
+                      name="Amount_Refunded"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Reason]"
+                      dataType="wstr"
+                      length="500"
+                      name="Reason" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Created_Date]"
+                      dataType="dbTimeStamp"
+                      name="Created_Date" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input].ExternalColumns[Modified_Date]"
+                      dataType="dbTimeStamp"
+                      name="Modified_Date" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FactReturns\FactReturns.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactReturns\FactReturns.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\FactReturns.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FactReturns\FactReturns.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\FactReturns.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactReturns\STG_Returns"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="STG_Returns"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[STG_Returns]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT 
+    r.return_id,
+    r.order_id,
+    r.product_id,
+    r.return_date,
+    r.reason,
+    r.amount_refunded,
+    o.customer_id,
+    o.payment_method_id
+FROM returns r
+    INNER JOIN orders o ON r.order_id = o.order_id
+WHERE r.return_date &gt; ?</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"Parameter0:Input",{D291A6BB-E04E-4C1F-9BC9-5A6499D50A0E};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FactReturns\STG_Returns.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Return_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Return_ID]"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Return_ID]"
+                      name="Return_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Order_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Order_ID]"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Order_ID]"
+                      name="Order_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Product_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Product_ID]"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Product_ID]"
+                      name="Product_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Return_Date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Return_Date]"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Return_Date]"
+                      name="Return_Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Reason]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Reason]"
+                      length="500"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Reason]"
+                      name="Reason"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Amount_Refunded]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Amount_Refunded]"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Amount_Refunded]"
+                      name="Amount_Refunded"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Load_Date]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Load_Date]"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Load_Date]"
+                      name="Load_Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Customer_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Customer_ID]"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[Customer_ID]"
+                      name="Customer_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[PaymentMethod_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[PaymentMethod_ID]"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].Columns[PaymentMethod_ID]"
+                      name="PaymentMethod_ID"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Return_ID]"
+                      dataType="i4"
+                      name="Return_ID" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Order_ID]"
+                      dataType="i4"
+                      name="Order_ID" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Product_ID]"
+                      dataType="i4"
+                      name="Product_ID" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Return_Date]"
+                      dataType="dbDate"
+                      name="Return_Date" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Reason]"
+                      dataType="wstr"
+                      length="500"
+                      name="Reason" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Amount_Refunded]"
+                      dataType="numeric"
+                      name="Amount_Refunded"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Load_Date]"
+                      dataType="dbTimeStamp"
+                      name="Load_Date" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[Customer_ID]"
+                      dataType="i4"
+                      name="Customer_ID" />
+                    <externalMetadataColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output].ExternalColumns[PaymentMethod_ID]"
+                      dataType="i4"
+                      name="PaymentMethod_ID" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Return_ID]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Return_ID]"
+                      name="Return_ID" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Order_ID]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Order_ID]"
+                      name="Order_ID" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Product_ID]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Product_ID]"
+                      name="Product_ID" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Customer_ID]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Customer_ID]"
+                      name="Customer_ID" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[PaymentMethod_ID]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[PaymentMethod_ID]"
+                      name="PaymentMethod_ID" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Return_Date]"
+                      dataType="dbDate"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Return_Date]"
+                      name="Return_Date" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Reason]"
+                      dataType="wstr"
+                      length="500"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Reason]"
+                      name="Reason" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Amount_Refunded]"
+                      dataType="numeric"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Amount_Refunded]"
+                      name="Amount_Refunded"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Load_Date]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[Load_Date]"
+                      name="Load_Date" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\FactReturns.Paths[Lookup Match Output]"
+              endId="Package\FactReturns\DimProduct lkp.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\FactReturns\DimCustomer lkp.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\FactReturns.Paths[Lookup Match Output1]"
+              endId="Package\FactReturns\DimPaymentMethod lkp.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\FactReturns\DimProduct lkp.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\FactReturns.Paths[Lookup Match Output2]"
+              endId="Package\FactReturns\FactReturns.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\FactReturns\DimPaymentMethod lkp.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\FactReturns.Paths[Lookup Match Output3]"
+              endId="Package\FactReturns\DimCustomer lkp.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\FactReturns\DimDate lkp.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\FactReturns.Paths[OLE DB Source Output]"
+              endId="Package\FactReturns\DimDate lkp.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\FactReturns\STG_Returns.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Set Load Date"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2236AE50-8CB4-48A7-A343-609B51B47FF4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Set Load Date"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{28B14C08-E10A-485A-939E-C18888722F0B}"
+          SQLTask:SqlStatementSource="SELECT LastLoadDate&#xA;FROM   dbo.ETL_LoadControl&#xA;WHERE (TableName = 'FactReturns')"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::LoadDate" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\STG_Returns"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{6B15F667-803A-45BC-846B-48C40A480E51}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="STG_Returns"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\STG_Returns\STG_Returns"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="STG_Returns"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[STG_Returns]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\STG_Returns\STG_Returns.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].Columns[return_id]"
+                      cachedDataType="i4"
+                      cachedName="return_id"
+                      externalMetadataColumnId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Return_ID]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[return_id]" />
+                    <inputColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].Columns[order_id]"
+                      cachedDataType="i4"
+                      cachedName="order_id"
+                      externalMetadataColumnId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Order_ID]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[order_id]" />
+                    <inputColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].Columns[product_id]"
+                      cachedDataType="i4"
+                      cachedName="product_id"
+                      externalMetadataColumnId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Product_ID]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[product_id]" />
+                    <inputColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].Columns[return_date]"
+                      cachedDataType="dbDate"
+                      cachedName="return_date"
+                      externalMetadataColumnId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Return_Date]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[return_date]" />
+                    <inputColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].Columns[reason]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="reason"
+                      externalMetadataColumnId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Reason]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[reason]" />
+                    <inputColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].Columns[amount_refunded]"
+                      cachedDataType="numeric"
+                      cachedName="amount_refunded"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Amount_Refunded]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[amount_refunded]" />
+                    <inputColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].Columns[customer_id]"
+                      cachedDataType="i4"
+                      cachedName="customer_id"
+                      externalMetadataColumnId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Customer_ID]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[customer_id]" />
+                    <inputColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].Columns[payment_method_id]"
+                      cachedDataType="i4"
+                      cachedName="payment_method_id"
+                      externalMetadataColumnId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[PaymentMethod_ID]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[payment_method_id]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Return_ID]"
+                      dataType="i4"
+                      name="Return_ID" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Order_ID]"
+                      dataType="i4"
+                      name="Order_ID" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Product_ID]"
+                      dataType="i4"
+                      name="Product_ID" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Return_Date]"
+                      dataType="dbDate"
+                      name="Return_Date" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Reason]"
+                      dataType="wstr"
+                      length="500"
+                      name="Reason" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Amount_Refunded]"
+                      dataType="numeric"
+                      name="Amount_Refunded"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Load_Date]"
+                      dataType="dbTimeStamp"
+                      name="Load_Date" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[Customer_ID]"
+                      dataType="i4"
+                      name="Customer_ID" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input].ExternalColumns[PaymentMethod_ID]"
+                      dataType="i4"
+                      name="PaymentMethod_ID" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\STG_Returns\STG_Returns.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_Returns.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\STG_Returns\STG_Returns.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_Returns.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\STG_Returns\STG_Returns.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\STG_Returns\STG_tReturn Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="STG_tReturn Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT 
+    r.return_id,
+    r.order_id,
+    r.product_id,
+    r.return_date,
+    r.reason,
+    r.amount_refunded,
+    o.customer_id,
+    o.payment_method_id
+FROM returns r
+    INNER JOIN orders o ON r.order_id = o.order_id
+WHERE r.return_date &gt; ?</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"Parameter0:Input",{D291A6BB-E04E-4C1F-9BC9-5A6499D50A0E};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\STG_Returns\STG_tReturn Source.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[return_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[return_id]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[return_id]"
+                      name="return_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[order_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[order_id]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[order_id]"
+                      name="order_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[product_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[product_id]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[product_id]"
+                      name="product_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[return_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[return_date]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[return_date]"
+                      name="return_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[reason]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[reason]"
+                      length="500"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[reason]"
+                      name="reason"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[amount_refunded]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[amount_refunded]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[amount_refunded]"
+                      name="amount_refunded"
+                      precision="10"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[customer_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[customer_id]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[customer_id]"
+                      name="customer_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[payment_method_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[payment_method_id]"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].Columns[payment_method_id]"
+                      name="payment_method_id"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[return_id]"
+                      dataType="i4"
+                      name="return_id" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[order_id]"
+                      dataType="i4"
+                      name="order_id" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[product_id]"
+                      dataType="i4"
+                      name="product_id" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[return_date]"
+                      dataType="dbDate"
+                      name="return_date" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[reason]"
+                      dataType="wstr"
+                      length="500"
+                      name="reason" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[amount_refunded]"
+                      dataType="numeric"
+                      name="amount_refunded"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[customer_id]"
+                      dataType="i4"
+                      name="customer_id" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output].ExternalColumns[payment_method_id]"
+                      dataType="i4"
+                      name="payment_method_id" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[return_id]"
+                      dataType="i4"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[return_id]"
+                      name="return_id" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[order_id]"
+                      dataType="i4"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[order_id]"
+                      name="order_id" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[product_id]"
+                      dataType="i4"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[product_id]"
+                      name="product_id" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[return_date]"
+                      dataType="dbDate"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[return_date]"
+                      name="return_date" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[reason]"
+                      dataType="wstr"
+                      length="500"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[reason]"
+                      name="reason" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[amount_refunded]"
+                      dataType="numeric"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[amount_refunded]"
+                      name="amount_refunded"
+                      precision="10"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[customer_id]"
+                      dataType="i4"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[customer_id]"
+                      name="customer_id" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[payment_method_id]"
+                      dataType="i4"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[payment_method_id]"
+                      name="payment_method_id" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\STG_Returns.Paths[OLE DB Source Output]"
+              endId="Package\STG_Returns\STG_Returns.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\STG_Returns\STG_tReturn Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\TRUNCATE STG_FactReturns"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A9DB72E3-158A-4D90-955C-85DF6D271CA9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TRUNCATE STG_FactReturns"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{28B14C08-E10A-485A-939E-C18888722F0B}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE STG_Returns&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Load date"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D4B79320-DD4F-4445-AB19-9F7CAC38FC42}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Load date"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{28B14C08-E10A-485A-939E-C18888722F0B}"
+          SQLTask:SqlStatementSource="UPDATE ETL_LoadControl&#xA;SET LastLoadDate = GETDATE(),&#xA;    LastUpdateDate = GETDATE()&#xA;WHERE TableName = 'FactReturns'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{78E7BCE3-D534-4B39-8094-ACA4CFBA2B3E}"
+      DTS:From="Package\Set Load Date"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\STG_Returns" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{D397E905-D9A1-4DC9-ACCF-ACB3CE470514}"
+      DTS:From="Package\STG_Returns"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\FactReturns" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{864F0B97-9024-4049-8C64-3F99C506A744}"
+      DTS:From="Package\TRUNCATE STG_FactReturns"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Set Load Date" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{895E509B-5300-4475-A1FD-24CCBE0229BA}"
+      DTS:From="Package\FactReturns"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Update Load date" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="137.333333333334,42.6666666666667"
+          Id="Package\FactReturns"
+          TopLeft="326.388874298169,269.122804062629" />
+        <NodeLayout
+          Size="148,42.6666666666667"
+          Id="Package\Set Load Date"
+          TopLeft="300.555542119676,114.719296986019" />
+        <NodeLayout
+          Size="145.333333333334,42.6666666666667"
+          Id="Package\STG_Returns"
+          TopLeft="309.02776396316,185.497073986671" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="378.124986374751,157.385963652685">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.111110333985"
+              Start="0,0"
+              End="0,20.611110333985">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.611110333985" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="381.694430629827,228.163740653337">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="13.3611103350091,40.9590634092914"
+              Start="0,0"
+              End="13.3611103350091,33.4590634092914">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4795317046457" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.4795317046457"
+                    Point2="0,20.4795317046457"
+                    Point3="4,20.4795317046457" />
+                  <mssgle:LineSegment
+                    End="9.36111033500913,20.4795317046457" />
+                  <mssgle:CubicBezierSegment
+                    Point1="9.36111033500913,20.4795317046457"
+                    Point2="13.3611103350091,20.4795317046457"
+                    Point3="13.3611103350091,24.4795317046457" />
+                  <mssgle:LineSegment
+                    End="13.3611103350091,33.4590634092914" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="226.666666666667,42.6666666666667"
+          Id="Package\TRUNCATE STG_FactReturns"
+          TopLeft="303.472208655957,47.8947363162305" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="416.80554198929,90.5614029828972">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-42.2499998696146,24.1578940031216"
+              Start="0,0"
+              End="-42.2499998696146,16.6578940031216">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.07894700156081" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.07894700156081"
+                    Point2="0,12.0789470015608"
+                    Point3="-4,12.0789470015608" />
+                  <mssgle:LineSegment
+                    End="-38.2499998696146,12.0789470015608" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-38.2499998696146,12.0789470015608"
+                    Point2="-42.2499998696146,12.0789470015608"
+                    Point3="-42.2499998696146,16.0789470015608" />
+                  <mssgle:LineSegment
+                    End="-42.2499998696146,16.6578940031216" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="164,42.6666666666667"
+          Id="Package\Update Load date"
+          TopLeft="322.916652231167,363.391808875527" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="395.055540964836,311.789470729295">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9.86111126633136,51.6023381462314"
+              Start="0,0"
+              End="9.86111126633136,44.1023381462314">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.8011690731157" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.8011690731157"
+                    Point2="0,25.8011690731157"
+                    Point3="4,25.8011690731157" />
+                  <mssgle:LineSegment
+                    End="5.86111126633136,25.8011690731157" />
+                  <mssgle:CubicBezierSegment
+                    Point1="5.86111126633136,25.8011690731157"
+                    Point2="9.86111126633136,25.8011690731157"
+                    Point3="9.86111126633136,29.8011690731157" />
+                  <mssgle:LineSegment
+                    End="9.86111126633136,44.1023381462314" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\FactReturns">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="145.333333333334,42.6666666666667"
+          Id="Package\FactReturns\STG_Returns"
+          TopLeft="216.874990304932,32.1578943837548" />
+        <NodeLayout
+          Size="137.333333333334,42.6666666666667"
+          Id="Package\FactReturns\DimDate lkp"
+          TopLeft="233.124989578501,125.210524941003" />
+        <EdgeLayout
+          Id="Package\FactReturns.Paths[OLE DB Source Output]"
+          TopLeft="289.541656971599,74.8245610504214">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="12.2499992735683,50.3859638905812"
+              Start="0,0"
+              End="12.2499992735683,42.8859638905812">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.1929819452906" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.1929819452906"
+                    Point2="0,25.1929819452906"
+                    Point3="4,25.1929819452906" />
+                  <mssgle:LineSegment
+                    End="8.24999927356828,25.1929819452906" />
+                  <mssgle:CubicBezierSegment
+                    Point1="8.24999927356828,25.1929819452906"
+                    Point2="12.2499992735683,25.1929819452906"
+                    Point3="12.2499992735683,29.1929819452906" />
+                  <mssgle:LineSegment
+                    End="12.2499992735683,42.8859638905812" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="161.333333333334,42.6666666666667"
+          Id="Package\FactReturns\DimCustomer lkp"
+          TopLeft="234.374989522621,218.263155498251" />
+        <NodeLayout
+          Size="152,42.6666666666667"
+          Id="Package\FactReturns\DimProduct lkp"
+          TopLeft="228.124989802018,285.999996859777" />
+        <EdgeLayout
+          Id="Package\FactReturns.Paths[Lookup Match Output]"
+          TopLeft="315.041656189288,260.929822164917">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-10.9166663872699,25.0701746948594"
+              Start="0,0"
+              End="-10.9166663872699,17.5701746948594">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.53508734742968" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.53508734742968"
+                    Point2="0,12.5350873474297"
+                    Point3="-4,12.5350873474297" />
+                  <mssgle:LineSegment
+                    End="-6.91666638726986,12.5350873474297" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-6.91666638726986,12.5350873474297"
+                    Point2="-10.9166663872699,12.5350873474297"
+                    Point3="-10.9166663872699,16.5350873474297" />
+                  <mssgle:LineSegment
+                    End="-10.9166663872699,17.5701746948594" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-53.6497199123849,17.5350873474297,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="193.333333333334,42.6666666666667"
+          Id="Package\FactReturns\DimPaymentMethod lkp"
+          TopLeft="198.749991115183,350.999996146089" />
+        <EdgeLayout
+          Id="Package\FactReturns.Paths[Lookup Match Output1]"
+          TopLeft="228.124989802018,307.33333019311">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="67.2916679798315,43.6666659529794"
+              Start="0,0"
+              End="67.2916679798315,36.1666659529794">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="63.2916679798315,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="63.2916679798315,0"
+                    Point2="67.2916679798315,0"
+                    Point3="67.2916679798315,4" />
+                  <mssgle:LineSegment
+                    End="67.2916679798315,36.1666659529794" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="19.1002812610815,-17.609375,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="137.333333333334,42.6666666666667"
+          Id="Package\FactReturns\FactReturns"
+          TopLeft="228.472212008718,445.280697304484" />
+        <EdgeLayout
+          Id="Package\FactReturns.Paths[Lookup Match Output2]"
+          TopLeft="296.277768228617,393.666662812756">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,51.6140344917281"
+              Start="0,0"
+              End="0,44.1140344917281">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.1140344917281" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,16.252329745864,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\FactReturns.Paths[Lookup Match Output3]"
+          TopLeft="301.791656245167,167.877191607669">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="13.2499999441206,50.3859638905812"
+              Start="0,0"
+              End="13.2499999441206,42.8859638905812">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.1929819452906" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.1929819452906"
+                    Point2="0,25.1929819452906"
+                    Point3="4,25.1929819452906" />
+                  <mssgle:LineSegment
+                    End="9.24999994412065,25.1929819452906" />
+                  <mssgle:CubicBezierSegment
+                    Point1="9.24999994412065,25.1929819452906"
+                    Point2="13.2499999441206,25.1929819452906"
+                    Point3="13.2499999441206,29.1929819452906" />
+                  <mssgle:LineSegment
+                    End="13.2499999441206,42.8859638905812" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-41.5663867466897,30.1929819452906,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\FactReturns\STG_Returns">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\FactReturns\DimDate lkp">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\FactReturns\DimCustomer lkp">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\FactReturns\DimProduct lkp">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\FactReturns\DimPaymentMethod lkp">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\FactReturns\FactReturns">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\STG_Returns">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="178.666666666667,42.6666666666667"
+          Id="Package\STG_Returns\STG_tReturn Source"
+          TopLeft="375.230758048021,25.9615376878243" />
+        <NodeLayout
+          Size="145.333333333334,42.6666666666667"
+          Id="Package\STG_Returns\STG_Returns"
+          TopLeft="382.999988585711,212.999993652106" />
+        <EdgeLayout
+          Id="Package\STG_Returns.Paths[OLE DB Source Output]"
+          TopLeft="464.564091381355,68.628204354491">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-8.89743612897706,144.371789297615"
+              Start="0,0"
+              End="-8.89743612897706,136.871789297615">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,68.1858946488073" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,68.1858946488073"
+                    Point2="0,72.1858946488073"
+                    Point3="-4,72.1858946488073" />
+                  <mssgle:LineSegment
+                    End="-4.89743612897706,72.1858946488073" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-4.89743612897706,72.1858946488073"
+                    Point2="-8.89743612897706,72.1858946488073"
+                    Point3="-8.89743612897706,76.1858946488073" />
+                  <mssgle:LineSegment
+                    End="-8.89743612897706,136.871789297615" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\STG_Returns\STG_tReturn Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\STG_Returns\STG_Returns">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,1656 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/25/2026 2:26:45 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LAPTOP-G61C3V06"
+  DTS:CreatorName="LAPTOP-G61C3V06\SALLAM"
+  DTS:DTSID="{A847FDDD-23CF-4633-83FB-83352DE77D3C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="CampaignDim"
+  DTS:PackageType="5"
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{C790F946-FE4E-4065-8F95-D4A2C216B0D2}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DimCampaign"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{4E926CE0-415B-4A43-8213-9B2ABAD44152}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DimCampaign"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DimCampaign\Check Change"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Check Change"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DimCampaign\Check Change.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DimCampaign\Check Change.Inputs[Conditional Split Input].Columns[Campaign_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Campaign_Name"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Campaign_Name]" />
+                    <inputColumn
+                      refId="Package\DimCampaign\Check Change.Inputs[Conditional Split Input].Columns[Offer_Week]"
+                      cachedDataType="i4"
+                      cachedName="Offer_Week"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Offer_Week]" />
+                    <inputColumn
+                      refId="Package\DimCampaign\Check Change.Inputs[Conditional Split Input].Columns[Campaign_Name1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Campaign_Name"
+                      lineageId="Package\DimCampaign\Check Lookup.Outputs[Lookup Match Output].Columns[Campaign_Name]" />
+                    <inputColumn
+                      refId="Package\DimCampaign\Check Change.Inputs[Conditional Split Input].Columns[Offer_Week1]"
+                      cachedDataType="i4"
+                      cachedName="Offer_Week"
+                      lineageId="Package\DimCampaign\Check Lookup.Outputs[Lookup Match Output].Columns[Offer_Week]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DimCampaign\Check Change.Outputs[Changed]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Changed"
+                  synchronousInputId="Package\DimCampaign\Check Change.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Campaign_Name]} != #{Package\DimCampaign\Check Lookup.Outputs[Lookup Match Output].Columns[Campaign_Name]} || #{Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Offer_Week]} != #{Package\DimCampaign\Check Lookup.Outputs[Lookup Match Output].Columns[Offer_Week]}</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">STG_Campaign.Campaign_Name != [Check Lookup].Campaign_Name || STG_Campaign.Offer_Week != [Check Lookup].Offer_Week</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DimCampaign\Check Change.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\DimCampaign\Check Change.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DimCampaign\Check Change.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\DimCampaign\Check Change.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimCampaign\Check Change.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DimCampaign\Check Change.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DimCampaign\Check Change.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DimCampaign\Check Change.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DimCampaign\Check Lookup"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Check Lookup"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[DimCampaign]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[DimCampaign]) [refTable]
+where [refTable].[Campaign_ID] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Campaign_Key" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Campaign_ID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Campaign_Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Offer_Week" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Source_System" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Campaign_ID]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DimCampaign\Check Lookup.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DimCampaign\Check Lookup.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DimCampaign\Check Lookup.Inputs[Lookup Input].Columns[Campaign_ID]"
+                      cachedDataType="i4"
+                      cachedName="Campaign_ID"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Campaign_ID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Campaign_ID</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DimCampaign\Check Lookup.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DimCampaign\Check Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimCampaign\Check Lookup.Outputs[Lookup Match Output].Columns[Campaign_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DimCampaign\Check Lookup.Outputs[Lookup Match Output].Columns[Campaign_ID]"
+                      name="Campaign_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Campaign_ID</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DimCampaign\Check Lookup.Outputs[Lookup Match Output].Columns[Campaign_Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="255"
+                      lineageId="Package\DimCampaign\Check Lookup.Outputs[Lookup Match Output].Columns[Campaign_Name]"
+                      name="Campaign_Name"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Campaign_Name</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DimCampaign\Check Lookup.Outputs[Lookup Match Output].Columns[Offer_Week]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\DimCampaign\Check Lookup.Outputs[Lookup Match Output].Columns[Offer_Week]"
+                      name="Offer_Week"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Offer_Week</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DimCampaign\Check Lookup.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DimCampaign\Check Lookup.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DimCampaign\Check Lookup.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DimCampaign\Check Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimCampaign\Check Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DimCampaign\Check Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DimCampaign\Check Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DimCampaign\Check Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DimCampaign\DimCampaign"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="DimCampaign"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[DimCampaign]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DimCampaign\DimCampaign.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input].Columns[Campaign_ID]"
+                      cachedDataType="i4"
+                      cachedName="Campaign_ID"
+                      externalMetadataColumnId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input].ExternalColumns[Campaign_ID]"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Campaign_ID]" />
+                    <inputColumn
+                      refId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input].Columns[Campaign_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Campaign_Name"
+                      externalMetadataColumnId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input].ExternalColumns[Campaign_Name]"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Campaign_Name]" />
+                    <inputColumn
+                      refId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input].Columns[Offer_Week]"
+                      cachedDataType="i4"
+                      cachedName="Offer_Week"
+                      externalMetadataColumnId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input].ExternalColumns[Offer_Week]"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Offer_Week]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input].ExternalColumns[Campaign_Key]"
+                      dataType="i4"
+                      name="Campaign_Key" />
+                    <externalMetadataColumn
+                      refId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input].ExternalColumns[Campaign_ID]"
+                      dataType="i4"
+                      name="Campaign_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input].ExternalColumns[Campaign_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Campaign_Name" />
+                    <externalMetadataColumn
+                      refId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input].ExternalColumns[Offer_Week]"
+                      dataType="i4"
+                      name="Offer_Week" />
+                    <externalMetadataColumn
+                      refId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input].ExternalColumns[Source_System]"
+                      dataType="wstr"
+                      length="50"
+                      name="Source_System" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DimCampaign\DimCampaign.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimCampaign\DimCampaign.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DimCampaign\DimCampaign.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DimCampaign\DimCampaign.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DimCampaign\DimCampaign.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DimCampaign\STG_Campaign"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="STG_Campaign"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[STG_Campaign]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DimCampaign\STG_Campaign.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Campaign_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].ExternalColumns[Campaign_ID]"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Campaign_ID]"
+                      name="Campaign_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Campaign_Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].ExternalColumns[Campaign_Name]"
+                      length="255"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Campaign_Name]"
+                      name="Campaign_Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Offer_Week]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].ExternalColumns[Offer_Week]"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Offer_Week]"
+                      name="Offer_Week"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Load_Date]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].ExternalColumns[Load_Date]"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Load_Date]"
+                      name="Load_Date"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].ExternalColumns[Campaign_ID]"
+                      dataType="i4"
+                      name="Campaign_ID" />
+                    <externalMetadataColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].ExternalColumns[Campaign_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Campaign_Name" />
+                    <externalMetadataColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].ExternalColumns[Offer_Week]"
+                      dataType="i4"
+                      name="Offer_Week" />
+                    <externalMetadataColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].ExternalColumns[Load_Date]"
+                      dataType="dbTimeStamp"
+                      name="Load_Date" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output].Columns[Campaign_ID]"
+                      dataType="i4"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output].Columns[Campaign_ID]"
+                      name="Campaign_ID" />
+                    <outputColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output].Columns[Campaign_Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output].Columns[Campaign_Name]"
+                      name="Campaign_Name" />
+                    <outputColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output].Columns[Offer_Week]"
+                      dataType="i4"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output].Columns[Offer_Week]"
+                      name="Offer_Week" />
+                    <outputColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output].Columns[Load_Date]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output].Columns[Load_Date]"
+                      name="Load_Date" />
+                    <outputColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DimCampaign\Update Value"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="Update Value"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">UPDATE DimCampaign
+SET Campaign_Name = ?,
+         Offer_Week = ?
+WHERE Campaign_ID = ?
+</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DimCampaign\Update Value.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input].Columns[Campaign_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Campaign_Name"
+                      externalMetadataColumnId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Campaign_Name]" />
+                    <inputColumn
+                      refId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input].Columns[Offer_Week]"
+                      cachedDataType="i4"
+                      cachedName="Offer_Week"
+                      externalMetadataColumnId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Offer_Week]" />
+                    <inputColumn
+                      refId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input].Columns[Campaign_ID]"
+                      cachedDataType="i4"
+                      cachedName="Campaign_ID"
+                      externalMetadataColumnId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      lineageId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output].Columns[Campaign_ID]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      dataType="wstr"
+                      length="255"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      dataType="i4"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      dataType="i4"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DimCampaign\Update Value.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DimCampaign\Update Value.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DimCampaign\Update Value.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DimCampaign\Update Value.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DimCampaign\Update Value.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DimCampaign\Update Value.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DimCampaign.Paths[Changed]"
+              endId="Package\DimCampaign\Update Value.Inputs[OLE DB Command Input]"
+              name="Changed"
+              startId="Package\DimCampaign\Check Change.Outputs[Changed]" />
+            <path
+              refId="Package\DimCampaign.Paths[Lookup Match Output]"
+              endId="Package\DimCampaign\Check Change.Inputs[Conditional Split Input]"
+              name="Lookup Match Output"
+              startId="Package\DimCampaign\Check Lookup.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DimCampaign.Paths[Lookup No Match Output]"
+              endId="Package\DimCampaign\DimCampaign.Inputs[OLE DB Destination Input]"
+              name="Lookup No Match Output"
+              startId="Package\DimCampaign\Check Lookup.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\DimCampaign.Paths[OLE DB Source Output]"
+              endId="Package\DimCampaign\Check Lookup.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DimCampaign\STG_Campaign.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\STG_Campaign"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{0C165B82-0BE0-491D-9A42-29A1F8376FC2}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="STG_Campaign"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\STG_Campaign\Campaign Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Campaign Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[marketing_campaigns]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\STG_Campaign\Campaign Source.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].Columns[campaign_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].ExternalColumns[campaign_id]"
+                      lineageId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].Columns[campaign_id]"
+                      name="campaign_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].Columns[campaign_name]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].ExternalColumns[campaign_name]"
+                      length="255"
+                      lineageId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].Columns[campaign_name]"
+                      name="campaign_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].Columns[offer_week]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].ExternalColumns[offer_week]"
+                      lineageId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].Columns[offer_week]"
+                      name="offer_week"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].ExternalColumns[campaign_id]"
+                      dataType="i4"
+                      name="campaign_id" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].ExternalColumns[campaign_name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="campaign_name" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].ExternalColumns[offer_week]"
+                      dataType="i4"
+                      name="offer_week" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Error Output].Columns[campaign_id]"
+                      dataType="i4"
+                      lineageId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Error Output].Columns[campaign_id]"
+                      name="campaign_id" />
+                    <outputColumn
+                      refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Error Output].Columns[campaign_name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Error Output].Columns[campaign_name]"
+                      name="campaign_name" />
+                    <outputColumn
+                      refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Error Output].Columns[offer_week]"
+                      dataType="i4"
+                      lineageId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Error Output].Columns[offer_week]"
+                      name="offer_week" />
+                    <outputColumn
+                      refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\STG_Campaign\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\STG_Campaign\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\STG_Campaign\Data Conversion.Inputs[Data Conversion Input].Columns[campaign_id]"
+                      cachedDataType="i4"
+                      cachedName="campaign_id"
+                      lineageId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].Columns[campaign_id]" />
+                    <inputColumn
+                      refId="Package\STG_Campaign\Data Conversion.Inputs[Data Conversion Input].Columns[campaign_name]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="campaign_name"
+                      lineageId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].Columns[campaign_name]" />
+                    <inputColumn
+                      refId="Package\STG_Campaign\Data Conversion.Inputs[Data Conversion Input].Columns[offer_week]"
+                      cachedDataType="i4"
+                      cachedName="offer_week"
+                      lineageId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].Columns[offer_week]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\STG_Campaign\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of campaign_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of campaign_id]"
+                      name="Copy of campaign_id"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].Columns[campaign_id]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of campaign_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of campaign_name]"
+                      name="Copy of campaign_name"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].Columns[campaign_name]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of offer_week]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of offer_week]"
+                      name="Copy of offer_week"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output].Columns[offer_week]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\STG_Campaign\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\STG_Campaign\STG_Campaign"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="STG_Campaign"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[STG_Campaign]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\STG_Campaign\STG_Campaign.Connections[OleDbConnection]"
+                  connectionManagerID="{28B14C08-E10A-485A-939E-C18888722F0B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[LAPTOP-G61C3V06_SQLEXPRESS.ecommerce]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input].Columns[Copy of campaign_id]"
+                      cachedDataType="i4"
+                      cachedName="Copy of campaign_id"
+                      externalMetadataColumnId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input].ExternalColumns[Campaign_ID]"
+                      lineageId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of campaign_id]" />
+                    <inputColumn
+                      refId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input].Columns[Copy of campaign_name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Copy of campaign_name"
+                      externalMetadataColumnId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input].ExternalColumns[Campaign_Name]"
+                      lineageId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of campaign_name]" />
+                    <inputColumn
+                      refId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input].Columns[Copy of offer_week]"
+                      cachedDataType="i4"
+                      cachedName="Copy of offer_week"
+                      externalMetadataColumnId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input].ExternalColumns[Offer_Week]"
+                      lineageId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of offer_week]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input].ExternalColumns[Campaign_ID]"
+                      dataType="i4"
+                      name="Campaign_ID" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input].ExternalColumns[Campaign_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Campaign_Name" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input].ExternalColumns[Offer_Week]"
+                      dataType="i4"
+                      name="Offer_Week" />
+                    <externalMetadataColumn
+                      refId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input].ExternalColumns[Load_Date]"
+                      dataType="dbTimeStamp"
+                      name="Load_Date" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\STG_Campaign\STG_Campaign.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\STG_Campaign\STG_Campaign.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\STG_Campaign\STG_Campaign.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\STG_Campaign\STG_Campaign.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\STG_Campaign\STG_Campaign.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\STG_Campaign.Paths[Data Conversion Output]"
+              endId="Package\STG_Campaign\STG_Campaign.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\STG_Campaign\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\STG_Campaign.Paths[OLE DB Source Output]"
+              endId="Package\STG_Campaign\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\STG_Campaign\Campaign Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\TRUNCATE STG_Campaign"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{CD76988E-C703-4FA5-AFDE-F6360FD79C54}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TRUNCATE STG_Campaign"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{28B14C08-E10A-485A-939E-C18888722F0B}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE STG_Campaign" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{685B0C7C-CEB9-4399-83AC-E7E02E871CB0}"
+      DTS:From="Package\TRUNCATE STG_Campaign"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\STG_Campaign" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{685FFC29-36AE-4ADB-B9CC-8411AA961702}"
+      DTS:From="Package\STG_Campaign"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\DimCampaign" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="148,42.6666666666667"
+          Id="Package\DimCampaign"
+          TopLeft="338.749984856695,240.842102618759" />
+        <NodeLayout
+          Size="156,42.6666666666667"
+          Id="Package\STG_Campaign"
+          TopLeft="336.249984968454,129.315788053822" />
+        <NodeLayout
+          Size="217.333333333334,42.6666666666667"
+          Id="Package\TRUNCATE STG_Campaign"
+          TopLeft="301.249986533076,40.3684206093943" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="412.083319084098,83.035087276061">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.280700777761"
+              Start="0,0"
+              End="0,38.780700777761">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.780700777761" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="413.499984912575,171.982454720489">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,68.8596478982703"
+              Start="0,0"
+              End="0,61.3596478982703">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,61.3596478982703" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DimCampaign">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="144,42.6666666666667"
+          Id="Package\DimCampaign\Update Value"
+          TopLeft="339.999989867211,298.461529566692" />
+        <NodeLayout
+          Size="148,42.6666666666667"
+          Id="Package\DimCampaign\DimCampaign"
+          TopLeft="524.615368980628,369.999988973141" />
+        <NodeLayout
+          Size="156,42.6666666666667"
+          Id="Package\DimCampaign\STG_Campaign"
+          TopLeft="482.076908709912,47.9999985694886" />
+        <NodeLayout
+          Size="150.666666666667,42.6666666666667"
+          Id="Package\DimCampaign\Check Change"
+          TopLeft="389.999988377095,222.307685682407" />
+        <NodeLayout
+          Size="148,42.6666666666667"
+          Id="Package\DimCampaign\Check Lookup"
+          TopLeft="475.38460121705,147.692303290734" />
+        <EdgeLayout
+          Id="Package\DimCampaign.Paths[Lookup Match Output]"
+          TopLeft="549.38460121705,190.358969957401">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-84.0512795066223,31.9487157250063"
+              Start="0,0"
+              End="-84.0512795066223,24.4487157250063">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.9743578625031" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.9743578625031"
+                    Point2="0,15.9743578625031"
+                    Point3="-4,15.9743578625031" />
+                  <mssgle:LineSegment
+                    End="-80.0512795066223,15.9743578625031" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-80.0512795066223,15.9743578625031"
+                    Point2="-84.0512795066223,15.9743578625031"
+                    Point3="-84.0512795066223,19.9743578625031" />
+                  <mssgle:LineSegment
+                    End="-84.0512795066223,24.4487157250063" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-90.2170264720612,20.9743578625031,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimCampaign.Paths[Changed]"
+          TopLeft="465.333321710428,264.974352349074">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-53.3333318432172,33.487177217618"
+              Start="0,0"
+              End="-53.3333318432172,25.987177217618">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,12.743588608809" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.743588608809"
+                    Point2="0,16.743588608809"
+                    Point3="-4,16.743588608809" />
+                  <mssgle:LineSegment
+                    End="-49.3333318432172,16.743588608809" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-49.3333318432172,16.743588608809"
+                    Point2="-53.3333318432172,16.743588608809"
+                    Point3="-53.3333318432172,20.743588608809" />
+                  <mssgle:LineSegment
+                    End="-53.3333318432172,25.987177217618" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-46.5421737341086,21.743588608809,39.751015625,11.6630859375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimCampaign.Paths[OLE DB Source Output]"
+          TopLeft="560.076908709912,90.6666652361552">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-10.6923074928613,57.0256380545788"
+              Start="0,0"
+              End="-10.6923074928613,49.5256380545788">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5128190272894" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.5128190272894"
+                    Point2="0,28.5128190272894"
+                    Point3="-4,28.5128190272894" />
+                  <mssgle:LineSegment
+                    End="-6.69230749286135,28.5128190272894" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-6.69230749286135,28.5128190272894"
+                    Point2="-10.6923074928613,28.5128190272894"
+                    Point3="-10.6923074928613,32.5128190272894" />
+                  <mssgle:LineSegment
+                    End="-10.6923074928613,49.5256380545788" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DimCampaign.Paths[Lookup No Match Output]"
+          TopLeft="572.717934550384,190.358969957401">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="25.8974344302449,179.64101901574"
+              Start="0,0"
+              End="25.8974344302449,172.14101901574">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,69.0091841989105" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,69.0091841989105"
+                    Point2="0,73.0091841989105"
+                    Point3="4,73.0091841989105" />
+                  <mssgle:LineSegment
+                    End="21.8974344302449,73.0091841989105" />
+                  <mssgle:CubicBezierSegment
+                    Point1="21.8974344302449,73.0091841989105"
+                    Point2="25.8974344302449,73.0091841989105"
+                    Point3="25.8974344302449,77.0091841989105" />
+                  <mssgle:LineSegment
+                    End="25.8974344302449,172.14101901574" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-42.8576695036276,78.0091841989105,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DimCampaign\DimCampaign">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DimCampaign\Check Lookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[DimCampaign]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DimCampaign\STG_Campaign">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\STG_Campaign">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="158.666666666667,42.6666666666667"
+          Id="Package\STG_Campaign\Data Conversion"
+          TopLeft="361.874983822927,140.947366873478" />
+        <NodeLayout
+          Size="165.333333333334,42.6666666666667"
+          Id="Package\STG_Campaign\Campaign Source"
+          TopLeft="361.874983822927,39.684210090591" />
+        <NodeLayout
+          Size="156,42.6666666666667"
+          Id="Package\STG_Campaign\STG_Campaign"
+          TopLeft="362.499983794988,250.421049882005" />
+        <EdgeLayout
+          Id="Package\STG_Campaign.Paths[OLE DB Source Output]"
+          TopLeft="442.874983822927,82.3508767572577">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58.5964901162203"
+              Start="0,0"
+              End="0,51.0964901162203">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.0964901162203" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\STG_Campaign.Paths[Data Conversion Output]"
+          TopLeft="440.854150475624,183.614033540145">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,66.8070163418603"
+              Start="0,0"
+              End="0,59.3070163418603">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,59.3070163418603" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\STG_Campaign\Campaign Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\STG_Campaign\STG_Campaign">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
