@@ -12,6 +12,7 @@ This data warehouse project implements a star schema design to support retail bu
 - **ETL Pipeline**: Complete SSIS package suite for data extraction, transformation, and loading
 - **Data Quality**: Built-in validation, error handling, and auditing
 - **Analytics**: Pre-built views and queries for common business questions
+- **Power BI Dashboard**: 4-page interactive dashboard covering executive KPIs, sales, customers, and returns
 - **Scalability**: Designed to handle millions of transactions
 
 ##  Architecture
@@ -79,6 +80,33 @@ Detailed documentation is available in the [Documentation](./Documentation/) fol
 - [Data Warehouse Design](Documentation/Star_Schema_Diagram.png)
 - [Dimensional Model](Documentation/Dimensional_Model.md)
 - [ETL Process Flow](Documentation/ETL_Process_Flow.md)
+
+---
+
+##  Power BI Dashboard
+
+An interactive Power BI dashboard is built on top of this data warehouse, providing business-ready analytics across 4 dedicated pages.
+
+| Page | Description |
+|------|-------------|
+| **Executive Overview** | High-level KPIs: Total Revenue ($57.34M), Net Revenue, AOV, Return Rate, and monthly revenue trends |
+| **Sales Deep Dive** | Revenue by category, supplier, payment method, campaign performance, and top products |
+| **Customer Analysis** | CLV ($71.67K), 65% repeat purchase rate, new vs. returning customers, and geographic breakdown |
+| **Returns Profitability** | $1.47M refunds, return reasons, at-risk products, and refund-to-revenue trend |
+
+### Dashboard Preview
+
+| Executive Overview | Sales Deep Dive |
+|---|---|
+| ![Executive Overview](docs/dashboard/Executive_Page.png) | ![Sales Deep Dive](docs/dashboard/Sales_Page.png) |
+
+| Customer Analysis | Returns Profitability |
+|---|---|
+| ![Customer Analysis](docs/dashboard/Customer_Page.png) | ![Returns Profitability](docs/dashboard/Returns_Page.png) |
+
+📄 **[View full dashboard documentation →](docs/dashboard/DASHBOARD.md)**
+
+---
 
 
 ##  Sample Analytics Queries
